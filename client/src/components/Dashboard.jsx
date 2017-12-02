@@ -1,4 +1,6 @@
-var Dashboard = (props) => (
+var Dashboard = (props) => {
+  console.log('dashboard props', props)
+  return(
   <div className="dashboard">
     <h1>Start Workout</h1>
     <div className="startButton">
@@ -6,7 +8,8 @@ var Dashboard = (props) => (
     </div>
     <History workoutHistory={props.workoutHistory} workoutDate={props.workoutDate} workoutLength={props.workoutLength} loggedIn={props.loggedIn}/>
   </div>
-);
+  )
+};
 
 
 window.Dashboard = Dashboard;

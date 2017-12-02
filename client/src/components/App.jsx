@@ -15,16 +15,20 @@ class App extends React.Component {
       workoutLengthInMins: 15,
       elapsedTime: null,
       completedWorkouts: [],
-      expendedCalories: null
+      expendedCalories: null,
+      mainWorkOutList: window.exampleExerciseData,
+      userWorkOutList: null
     };
 
     this.getUserInfo();
+    this.getAllWarmups();
     this.goToWorkout = this.goToWorkout.bind(this);
     this.goToSummary = this.goToSummary.bind(this);
     this.goToDashboard = this.goToDashboard.bind(this);
     this.goToCountdown = this.goToCountdown.bind(this);
     this.goToLogin = this.goToLogin.bind(this);
     this.goToSignUp = this.goToSignUp.bind(this);
+    this.goToProfile = this.goToProfile.bind(this);
     this.getWorkoutHistory = this.getWorkoutHistory.bind(this);
     this.sendWorkoutData = this.sendWorkoutData.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -72,6 +76,10 @@ class App extends React.Component {
     if (this.state.interval) {
       clearInterval(this.state.interval);
     }
+  }
+
+  goToProfile() {
+    this.setState({currentState: 'Profile'})
   }
 
   goToLogin() {
@@ -127,6 +135,19 @@ class App extends React.Component {
         console.error(err);
       }
     });
+  }
+
+  getAllWarmups() {
+    $.ajax({
+      method: 'GET',
+      url: '/warmups',
+      complete: (data) => {
+        console.log('success in getAllWarmups', data)
+      },
+      error: (err) => {
+        console.log('err in gettign all warmups', err)
+      }
+    })
   }
 
   getExercises() {
@@ -302,7 +323,7 @@ class App extends React.Component {
   render() {
     var toBeRendered = () => {
       if (this.state.currentState === 'Dashboard') {
-        return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} />);
+        return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} goToProfile={this.goToProfile}/>);
       }
       if (this.state.currentState === 'Login') {
           return (<Login login={this.login} goToDashboard={this.goToDashboard}/>);
@@ -315,6 +336,9 @@ class App extends React.Component {
       }
       if (this.state.currentState === 'Workout') {
         return (<Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref="workoutPage" />);
+      }
+      if (this.state.currentState === 'Profile') {
+        return (<Profile mainWorkOutList={this.state.currentWorkout} userWorkOutList={this.state.userWorkOutList}/>);
       }
       if (this.state.currentState === 'Summary') {
         return (<Summary

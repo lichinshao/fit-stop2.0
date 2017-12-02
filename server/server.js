@@ -6,7 +6,7 @@ var path = require('path');
 var Exercise = require('./db').exerciseModel;
 var User = require('./db').userModel;
 var ObjectID = require('mongodb').ObjectID;
-var session = require('express-session')
+var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 
 var app = express();
@@ -66,6 +66,7 @@ app.get('/', (req,res) => {
 app.get('/islogged', checkSession);
 app.get('/workout', getWorkout);
 app.get('/history', getHistory);
+app.get('/warmups', getAllWarmups);
 
 app.post('/addWorkout', addWorkout);
 app.post('/login', checkLogin);
@@ -75,6 +76,16 @@ app.post('/signup', addSignup);
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
   Request Handlers
 * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+function getAllWarmups(req, res) {
+  Exercise.find({type: 'warmup'}, function(err, data) {
+    if (err) {
+      console.log('err in getAllWarmups', err);
+    } else if (data) {
+      console.log('success in getAllWarmups', data)
+    }
+  })
+}
 
 function getHistory(req, res) {
   var name = req.query.username;
@@ -90,7 +101,7 @@ function getHistory(req, res) {
 function getWorkout(req, res) {
   var returnObj = [];
 
-  Exercise.find({type: 'warmup'}, function(err,data) {
+  Exercise.find({type: 'warmup'}, function(err, data) {
     if(err) {
       console.log('err happened with cooldown retrieval: ' + err);
     } else {
