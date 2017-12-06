@@ -5,7 +5,7 @@ var OwnerExerciseList = (props) => {
 
   return (
     <div>
-      <h2>Your customized exercise list...</h2><br></br>
+      <h2>Your customized exercise list...</h2>
       <div className="list">
         <h3>Warmups</h3>
         {warm.map((ex, ind) => (<div onClick={() => props.changeProfileView('ownerExerciseCard', ex)} key={ind}>{ex.name}</div>))}
