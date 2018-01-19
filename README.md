@@ -4,9 +4,9 @@
 
 ## Team Anonymous Pizza
 
-  - __Product Owner__: Harsh
-  - __Scrum Master__: Candice
-  - __Development Team Members__: Steve, Bella
+  - __Product Owner__: Matt
+  - __Scrum Master__: Li
+  - __Development Team Members__: Vitor, Bongani
 
 ## Table of Contents
 
